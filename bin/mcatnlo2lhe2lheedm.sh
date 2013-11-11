@@ -25,6 +25,10 @@ echo "$mcatnlo2lheCommand"
 eval $mcatnlo2lheCommand
 #renaming
 mv $pwdName.lhe.root $pwdName.lhe
+## adding mcatnlo.inputs
+cmd="python $CMSSW_BASE/MCatNLO2LHE/addMCatNLOinputsToLHEfile.py --lheFile $pwdName.lhe --mcatnloInputs MCatNLO.inputs"
+echo $cmd
+eval $cmd
 # LHE2EDM
 if [[ "$1" == "--onlyLHE" ]]; then
   exit 1

@@ -8,10 +8,12 @@ if [ -z $CMSSW_BASE ] || [ ! -d $CMSSW_BASE/MCatNLO2LHE ] || [ ! -d $CMSSW_BASE/
   echo "CMSSW_BASE missing i.e. cmsenv not executed or MCatNLO2LHE not installed"
   exit 1
 fi
+inputFile="Linux/$postfix.events"
+optionalInput=${BASH_ARGV[0]}
 if [ -f MCatNLO.inputs ]; then 
   postfix=`cat MCatNLO.inputs | grep EVPREFIX | sed 's/.*=\ *\([^=\ ]*\)[\ \$]*.*/\1/'`
-  if [ ! -f Linux/$postfix.events ]; then
-    echo "no mcatnlo output found: Linux/$postfix.events"
+  if [ ! -f $inputFile ] && [ ! -f $optionalInput ]; then
+    echo "no mcatnlo output found: $inputFile"
     exit 1
   fi
   else 
@@ -20,7 +22,10 @@ if [ -f MCatNLO.inputs ]; then
 fi
 pwdName=${PWD##*/}
 echo "converting mcatnlo output to lhe"
-mcatnlo2lheCommand="cmsRun $CMSSW_BASE/MCatNLO2LHE/convertMCatNLO2LHE_cfg.py inputFiles=file:Linux/$postfix.events mcatnloInputsFile=MCatNLO.inputs outputFile=$pwdName.lhe >& converting_mcatnlo2edm_${pwdName}_log.txt"
+if [ ! -f $inputFile ]; then
+  inputFile=$optionalInput
+fi
+mcatnlo2lheCommand="cmsRun $CMSSW_BASE/MCatNLO2LHE/convertMCatNLO2LHE_cfg.py inputFiles=file:$inputFile mcatnloInputsFile=MCatNLO.inputs outputFile=$pwdName.lhe >& converting_mcatnlo2edm_${pwdName}_log.txt"
 echo "$mcatnlo2lheCommand"
 eval $mcatnlo2lheCommand
 #renaming

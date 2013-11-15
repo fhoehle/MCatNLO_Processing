@@ -31,7 +31,7 @@ echo $cmd
 eval $cmd
 # LHE2EDM
 if [[ "$1" == "--onlyLHE" ]]; then
-  exit 1
+  exit 0 
 fi
 echo "converting from LHE 2 EDM"
 lhe2edmCommand="cmsRun $CMSSW_BASE/MCatNLO_Showering/TT_mcatnlo_LHE2EDM_cfg.py inputFiles=file:$pwdName.lhe outputFile=${pwdName}_LHE2EDM >& lhe2edm_${pwdName}_log.txt"

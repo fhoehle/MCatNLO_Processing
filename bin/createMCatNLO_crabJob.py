@@ -27,7 +27,7 @@ import math
 eventsPerJob=int(math.floor(numberOfEvents/100))
 numberOfJobs=int(math.ceil(numberOfEvents/eventsPerJob))
 print "In total ",numberOfEvents," events and ",numberOfJobs," jobs with ",eventsPerJob," events per job will be used"
-crabCfgChanges={"CMSSW":{},"USER":{}};  crabCfgChanges["CMSSW"] = {"number_of_jobs" : numberOfJobs , "events_per_job":eventsPerJob}; crabCfgChanges["USER"] = {"additional_input_files":args.lheFile,"publish_data" : 1,"publish_data_name" : label
+crabCfgChanges={"CMSSW":{},"USER":{}};  crabCfgChanges["CMSSW"] = {"datasetpath":None, "number_of_jobs":numberOfJobs , "events_per_job":eventsPerJob,"generator":"lhe"}; crabCfgChanges["USER"] = {"additional_input_files":args.lheFile,"publish_data" : 1,"publish_data_name" : label
     ,"dbs_url_for_publication" : "https://cmsdbsprod.cern.ch:8443/cms_dbs_ph_analysis_02_writer/servlet/DBSServlet"}
 cfgName=label+"_cfg.py"
 crabJobDir=os.getenv('PWD')+os.path.sep+pwd+"_LHE2EDM_crabJob_"+timeSt

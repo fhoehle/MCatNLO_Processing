@@ -16,3 +16,9 @@ if [ -f install.sh  ]; then
   ./install.sh
 fi
 
+mkdir $CMSSW_BASE/src/Configuration
+cd $CMSSW_BASE/src/Configuration
+git clone git@github.com:fhoehle/MyGenProduction.git
+scram b
+cd $CMSSW_BASE
+

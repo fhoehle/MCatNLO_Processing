@@ -3,7 +3,7 @@ if [ "$1" == "-h" ]  || [ "$1" == "--help" ]; then
     echo "Usage: `basename $0` [-h] [--onlyLHE]"
     exit 0
 fi
-postfix=""
+postfix="ttb"
 if [ -z $CMSSW_BASE ] || [ ! -d $CMSSW_BASE/MCatNLO2LHE ] || [ ! -d $CMSSW_BASE/MCatNLO_Showering ]; then
   echo "CMSSW_BASE missing i.e. cmsenv not executed or MCatNLO2LHE not installed"
   exit 1

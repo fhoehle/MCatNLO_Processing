@@ -45,13 +45,13 @@ while [ $# -ge 1 ]; do
 done
 ### check input
 if [ ! -f $input ]; then
-    echo "input not found: $inputi is not existing"
+    echo "input not found: $input is not existing"
     exit 1
 fi
 ## MCatNLO to LHE
 mcatnlo2lheCommand="cmsRun $CMSSW_BASE/MCatNLO2LHE/convertMCatNLO2LHE_cfg.py inputFiles=file:$input mcatnloInputsFile=MCatNLO.inputs outputFile=$outputLHE >& converting_mcatnlo2edm_${filenamePrefix}_log.txt"
 echo "$mcatnlo2lheCommand"
-eval $mcatnlo2lheCommand
+#eval $mcatnlo2lheCommand
 #renaming
 mv ${outputLHE}.root $outputLHE
 #
@@ -60,6 +60,10 @@ if [ "x$notest" != "xtrue" ]; then
   testLHEcmd="cmsDriver.py lhetest --filein file:$outputLHE --mc --conditions auto:startup -n -1 --python lhetest_${filenamePrefix}.py --step NONE --no_output  >& lhetest_${filenamePrefix}.py_log.txt"
   echo "$testLHEcmd"
   eval $testLHEcmd
+  if [ "$?" != "0" ]; then
+    echo "lhe contains errors, see lhetest_${filenamePrefix}.py_log.txt"
+    exit 1 
+  fi
 fi
 ## adding mcatnlo.inputs
 if [ "x$noMCatNLOinputs" != "xtrue" ]; then 
@@ -71,6 +75,10 @@ if [ "x$noMCatNLOinputs" != "xtrue" ]; then
     testLHEcmd="cmsDriver.py lhetest --filein file:$outputLHE --mc --conditions auto:startup -n -1 --python lhetest_${filenamePrefix}.py --step NONE --no_output >& lhetest_${filenamePrefix}.py_withMCatnlo.inputs_log.txt "
     echo "$testLHEcmd"
     eval $testLHEcmd
+    if [ "$?" != "0" ]; then
+      echo "lhe contains errors, see lhetest_${filenamePrefix}.py_withMCatnlo.inputs_log.txt"
+      exit 1
+    fi
   fi
 fi
 # LHE2EDM

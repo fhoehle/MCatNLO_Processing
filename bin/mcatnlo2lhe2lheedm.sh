@@ -51,7 +51,7 @@ fi
 ## MCatNLO to LHE
 mcatnlo2lheCommand="cmsRun $CMSSW_BASE/MCatNLO2LHE/convertMCatNLO2LHE_cfg.py inputFiles=file:$input mcatnloInputsFile=MCatNLO.inputs outputFile=$outputLHE >& converting_mcatnlo2edm_${filenamePrefix}_log.txt"
 echo "$mcatnlo2lheCommand"
-#eval $mcatnlo2lheCommand
+eval $mcatnlo2lheCommand
 #renaming
 mv ${outputLHE}.root $outputLHE
 #
